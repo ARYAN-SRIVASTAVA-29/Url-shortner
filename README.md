@@ -1,207 +1,209 @@
-# LinkShort - Enterprise URL Shortener System
+# LinkShort — Minimal URL Shortener
 
-A comprehensive URL shortening service built with Next.js, Supabase, and modern web technologies. This project demonstrates enterprise-grade system design principles, scalable architecture, and professional development practices.
-
-## 🏗️ System Architecture
-
-### High-Level Architecture
-\`\`\`
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Load Balancer │────│   Next.js App   │────│   Supabase DB   │
-│   (Vercel Edge) │    │   (App Router)   │    │  (PostgreSQL)   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                              │
-                       ┌─────────────────┐
-                       │   Redis Cache   │
-                       │   (Optional)    │
-                       └─────────────────┘
-\`\`\`
-
-### Core Components
-- **Frontend**: Next.js 15 with App Router, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes with server-side rendering
-- **Database**: Supabase (PostgreSQL) with Row Level Security
-- **Authentication**: Supabase Auth with email/password
-- **Analytics**: Real-time click tracking and visualization
-- **Deployment**: Vercel with global CDN distribution
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+ 
-- Supabase account
-- Vercel account (for deployment)
-
-### Installation
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Set up Supabase integration in v0 Project Settings
-4. Run database migrations from the `scripts/` folder
-5. Start development server: `npm run dev`
-
-### Database Setup
-Execute the SQL scripts in order:
-1. `scripts/001_create_tables.sql` - Core table structure
-2. `scripts/002_create_rls_policies.sql` - Security policies
-3. `scripts/003_create_functions.sql` - Utility functions
-4. `scripts/004_seed_sample_data.sql` - Sample data (optional)
-
-## 📊 Features
-
-### Core Functionality
-- **URL Shortening**: Generate unique short codes for long URLs
-- **Custom Analytics**: Track clicks, geographic data, referrers
-- **User Management**: Authentication and personal dashboards
-- **Real-time Redirects**: Fast URL resolution with analytics tracking
-
-### Advanced Features
-- **Row Level Security**: Database-level access control
-- **Geographic Analytics**: Country and city-level click tracking
-- **Device Detection**: Browser and device type identification
-- **Batch Operations**: Bulk URL management
-- **API Integration**: RESTful API for external integrations
-
-## 🔧 System Design Decisions
-
-### Database Schema
-- **Normalized Design**: Separate tables for users, URLs, and clicks
-- **UUID Primary Keys**: Globally unique identifiers for scalability
-- **Indexed Columns**: Optimized queries for short_code lookups
-- **Audit Trails**: Created/updated timestamps for all records
-
-### Security Implementation
-- **Row Level Security (RLS)**: User data isolation at database level
-- **Authentication Middleware**: Server-side session management
-- **Input Validation**: URL format validation and sanitization
-- **CORS Protection**: Secure cross-origin request handling
-
-### Performance Optimizations
-- **Database Indexing**: Optimized queries for URL resolution
-- **Connection Pooling**: Efficient database connection management
-- **CDN Distribution**: Global edge caching via Vercel
-- **Lazy Loading**: Component-level code splitting
-
-## 📈 Scalability Considerations
-
-### Horizontal Scaling
-- **Stateless Architecture**: No server-side session storage
-- **Database Sharding**: Partition by user_id or short_code
-- **Read Replicas**: Separate read/write database instances
-- **Microservices**: Split analytics and URL services
-
-### Caching Strategy
-- **Redis Integration**: Cache frequently accessed URLs
-- **CDN Caching**: Static asset and API response caching
-- **Browser Caching**: Client-side URL resolution caching
-- **Database Query Caching**: Supabase built-in query optimization
-
-### Monitoring & Observability
-- **Error Tracking**: Comprehensive error logging
-- **Performance Metrics**: Response time and throughput monitoring
-- **Analytics Dashboard**: Real-time system health metrics
-- **Alerting**: Automated notifications for system issues
-
-## 🔒 Security Features
-
-### Data Protection
-- **Encryption at Rest**: Supabase automatic encryption
-- **Encryption in Transit**: HTTPS/TLS for all communications
-- **Access Control**: Role-based permissions system
-- **Data Validation**: Server-side input sanitization
-
-### Authentication & Authorization
-- **JWT Tokens**: Secure session management
-- **Email Verification**: Account activation workflow
-- **Password Security**: Bcrypt hashing with salt
-- **Session Management**: Automatic token refresh
-
-## 📚 API Documentation
-
-### Authentication Endpoints
-- `POST /api/auth/login` - User authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/logout` - Session termination
-
-### URL Management Endpoints
-- `POST /api/shorten` - Create shortened URL
-- `GET /api/urls` - List user URLs
-- `PATCH /api/urls/[id]` - Update URL metadata
-- `DELETE /api/urls/[id]` - Delete URL
-
-### Analytics Endpoints
-- `GET /api/analytics/[id]` - URL-specific analytics
-- `GET /api/analytics/overview` - Account-wide analytics
-
-### Redirect Endpoint
-- `GET /[shortCode]` - URL resolution and redirect
-
-## 🎯 Interview Preparation Guide
-
-### System Design Topics Covered
-1. **Database Design**: Schema normalization, indexing, RLS
-2. **API Design**: RESTful principles, error handling
-3. **Scalability**: Horizontal scaling, caching strategies
-4. **Security**: Authentication, authorization, data protection
-5. **Performance**: Query optimization, CDN usage
-6. **Monitoring**: Analytics, error tracking, alerting
-
-### Key Discussion Points
-- **Trade-offs**: Consistency vs. availability in URL resolution
-- **Scaling**: Handling millions of URLs and redirects
-- **Security**: Preventing abuse and malicious URLs
-- **Analytics**: Real-time vs. batch processing considerations
-- **Reliability**: Fault tolerance and disaster recovery
-
-### Architecture Decisions
-- **Why Supabase**: Managed PostgreSQL with built-in auth
-- **Why Next.js**: Full-stack framework with SSR capabilities
-- **Why Row Level Security**: Database-level access control
-- **Why UUID**: Global uniqueness for distributed systems
-
-## 🚀 Deployment
-
-### Vercel Deployment
-1. Connect GitHub repository to Vercel
-2. Configure environment variables
-3. Set up Supabase integration
-4. Deploy with automatic CI/CD
-
-### Environment Variables
-\`\`\`env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-\`\`\`
-
-### Production Considerations
-- **Domain Configuration**: Custom domain setup
-- **SSL Certificates**: Automatic HTTPS via Vercel
-- **Database Backups**: Automated Supabase backups
-- **Monitoring**: Vercel Analytics integration
-
-## 📖 Study Resources
-
-### System Design Concepts
-- **Load Balancing**: Distributing traffic across servers
-- **Database Sharding**: Horizontal database partitioning
-- **Caching Strategies**: Redis, CDN, browser caching
-- **Microservices**: Service decomposition patterns
-
-### Technology Deep Dives
-- **PostgreSQL**: Advanced querying and optimization
-- **Next.js**: Server-side rendering and API routes
-- **Supabase**: Real-time subscriptions and RLS
-- **Vercel**: Edge functions and global deployment
-
-## 🤝 Contributing
-
-This project serves as a learning resource for system design interviews. Contributions that enhance the educational value are welcome.
-
-## 📄 License
-
-MIT License - See LICENSE file for details.
+LinkShort is a small, clean URL shortener built with **Next.js** and **Supabase**.  
+It focuses on the basics: create short links, redirect fast, and (optionally) record simple analytics.
 
 ---
 
-**Built for System Design Interview Preparation**
-This project demonstrates enterprise-grade architecture patterns, scalable design principles, and modern web development practices suitable for technical interviews and real-world applications.
+## What’s inside
+
+- **Next.js (App Router, TypeScript, Tailwind)**
+- **Supabase (PostgreSQL + Auth + RLS)**
+- Optional **Redis** cache (for hot slugs)
+- API routes for shortening, listing, and analytics
+
+---
+
+## Architecture (high level)
+
+```
+
+┌───────────────┐    ┌────────────────┐    ┌────────────────┐
+│   Web / CDN   │───▶│  Next.js App   │───▶│  Supabase (DB) │
+└───────────────┘    └────────────────┘    └────────────────┘
+│
+(optional)
+▼
+┌────────┐
+│ Redis  │
+└────────┘
+
+````
+
+- **/api/shorten** creates a record in `urls`.
+- **/:slug** looks up the long URL (cache → DB), optionally logs a click, and issues a redirect.
+
+---
+
+## Quick start
+
+### Prerequisites
+- Node.js 18+
+- Supabase project (free is fine)
+
+### 1) Install
+```bash
+# clone your repo, then
+npm install   # or pnpm install / yarn
+````
+
+### 2) Environment
+
+Create **`.env.local`**:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key   # optional (admin tasks only)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000        # used in auth + link generation
+```
+
+### 3) Database
+
+Open the Supabase SQL editor and run the scripts in **scripts/** in order:
+
+1. `001_create_tables.sql` – core tables (`urls`, `clicks`, etc.)
+2. `002_create_rls_policies.sql` – Row-Level Security
+3. `003_create_functions.sql` – helpers/triggers
+4. `004_seed_sample_data.sql` – optional
+
+> Ensure there is a **unique index** on `urls.slug`.
+
+### 4) Auth (magic links)
+
+Supabase Dashboard → **Authentication → URL Configuration**
+
+* **Site URL:** `http://localhost:3000`
+* **Redirect URLs:** `http://localhost:3000/auth/callback`
+
+### 5) Run
+
+```bash
+npm run dev
+```
+
+Open **[http://localhost:3000](http://localhost:3000)**.
+
+---
+
+## Features
+
+* **Shorten URLs** with a simple form and API (`POST /api/shorten`)
+* **Fast redirects** from `/:slug` (302/307)
+* **Basic analytics** (optional): store click time, referrer, UA, IP (as per your policy)
+* **Auth & dashboard** (optional): sign in with email magic links, view/manage your links
+* **RLS** to keep user data isolated (or allow anonymous create—your choice)
+
+---
+
+## API (short version)
+
+### Create short link
+
+`POST /api/shorten`
+
+```json
+{ "longUrl": "https://example.com/a?x=1#sec" }
+```
+
+**Response**
+
+```json
+{
+  "id": "uuid",
+  "slug": "kBvEJQ",
+  "longUrl": "https://example.com/a?x=1#sec",
+  "shortUrl": "http://localhost:3000/kBvEJQ"
+}
+```
+
+### List my URLs (if you keep dashboards)
+
+`GET /api/urls` → returns the authenticated user’s links.
+
+### Update / delete
+
+`PATCH /api/urls/[id]`
+`DELETE /api/urls/[id]`
+
+### Analytics
+
+`GET /api/analytics/[id]` – stats for a single URL
+`GET /api/analytics/overview` – account-level summary
+
+### Redirect
+
+`GET /:slug` → 30x redirect to the original URL (fragment `#...` preserved)
+
+---
+
+## Database & security
+
+* **Tables**: `urls` (owner\_id, slug, long\_url, created\_at, …), `clicks` (url\_id, ts, ua, referrer, ip\_hash, …).
+* **RLS**:
+
+  * If you want anonymous link creation, allow `insert` on `urls` with tight validation.
+  * If you want account-scoped links only, require `authenticated` and filter by `owner_id = auth.uid()`.
+* **Validation**: Accept only `http://` or `https://` schemes. Reject `javascript:`, `data:`, etc.
+* **Uniqueness**: `urls.slug` must be unique.
+
+---
+
+## Performance & scaling
+
+* **Cache** hot slugs in Redis (TTL minutes/hours).
+* **Indexes** on `urls.slug`, `urls.owner_id`, `clicks.url_id`.
+* **Avoid re-encoding** URLs; store exactly what users gave (after validation).
+
+---
+
+## Production notes
+
+* Use any Node-compatible host (Docker, a Node server, or your preferred platform).
+* Set environment variables for your **public site URL** (e.g., `https://yourdomain.com`) so generated links are correct.
+* Add **rate limiting** to `/api/shorten` (IP-based) to prevent abuse.
+* Consider a small **moderation** step (blocklists, phishing checks) if you plan to open this publicly.
+
+---
+
+## Testing ideas
+
+* Valid/invalid URLs, scheme checks, very long URLs, Unicode domains.
+* Duplicate long URL behavior (dedupe vs new slug).
+* Redirect preserves query + fragment.
+* Non-existent slug returns 404 (or custom page).
+* Auth flows: magic link callback (`/auth/callback`) sets session cookies correctly.
+
+---
+
+## Environment variables (recap)
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...     # optional
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+```
+
+---
+
+## Why this project
+
+This repo is meant to be a solid, readable reference for:
+
+* simple **Full-stack Next.js** patterns,
+* **Supabase Auth + RLS** basics,
+* clean **API design** and validation,
+* and a straightforward **system design** you can explain in interviews.
+
+---
+
+## Contributing
+
+Issues and PRs that improve clarity, tests, or educational value are welcome.
+
+## License
+
+MIT
+
+
